@@ -91,8 +91,8 @@ const tryVideo = () => {
   video.play();
 };
 app.appendChild(menuBar);
-app.appendChild(mainElement);
 app.appendChild(globalEventDisplay);
+app.appendChild(mainElement);
 
 const tryWebCam = () => {
   clearMainElement();

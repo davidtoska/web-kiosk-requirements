@@ -6,7 +6,7 @@ body {
 
 #app {
   width: 100%;
-  background: white;
+  background: #4d535e;
 }
 .menubar {
   display: flex;
@@ -20,25 +20,19 @@ body {
 }
 
 .main-element {
-  /*background: red;*/
-  background: #4d535e;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 20px;
   height: 80vh;
 }
 
 .global-event-display {
   padding: 10px;
+  margin: 20px;
   background: white;
   width: 700px;
-  /*height: 100px;*/
-  position: fixed;
-  top: 120px;
-  left: 20px;
   border: 4px solid black;
   border-radius: 10px;
 }
+
 .global-event-display p {
   margin: 0;
   font-size: 20px;
