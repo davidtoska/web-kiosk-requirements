@@ -17,6 +17,14 @@ menuBar.classList.add("menubar");
 const mainElement = document.createElement("div");
 mainElement.classList.add("main-element");
 
+const saveStringToLocalStorage = (value: string) => {
+  localStorage.setItem("test-key", value);
+};
+
+const getStringFromLocalStorage = (): string => {
+  return localStorage.getItem("test-key") ?? "NO VALUE IN LOCAL STORAGE";
+};
+
 document.addEventListener("keydown", (e) => {
   console.log(e);
   const alt = e.altKey ? "Alt" : "";
@@ -48,6 +56,31 @@ const clearMainElement = () => {
   mainElement.innerHTML = "";
 };
 
+const tryLocalStorage = () => {
+  clearMainElement();
+  const container = document.createElement("div");
+  container.style.width = "700px";
+  container.style.height = "500px";
+  container.style.background = "white";
+  const input = document.createElement("input");
+  input.type = "text";
+  input.placeholder = "Type here";
+  const button = document.createElement("button");
+  button.style.display = "block";
+  button.textContent = "Save to LocalStorage";
+  const savedText = document.createElement("p");
+  savedText.textContent = "From local-storage: " + getStringFromLocalStorage();
+  button.onclick = () => {
+    const value = input.value;
+    saveStringToLocalStorage(value);
+    savedText.innerText = "From local-storage: " + value;
+  };
+  container.appendChild(savedText);
+  container.appendChild(input);
+  container.appendChild(button);
+  mainElement.appendChild(container);
+};
+
 const tryVideo = () => {
   clearMainElement();
   const video = document.createElement("video");
@@ -60,6 +93,7 @@ const tryVideo = () => {
 app.appendChild(menuBar);
 app.appendChild(mainElement);
 app.appendChild(globalEventDisplay);
+
 const tryWebCam = () => {
   clearMainElement();
   navigator.mediaDevices
@@ -100,3 +134,4 @@ const tryYoutube = () => {
 menuBar.appendChild(button("Try Video", tryVideo));
 menuBar.appendChild(button("Try WebCam", tryWebCam));
 menuBar.appendChild(button("Try Youtube", tryYoutube));
+menuBar.appendChild(button("Try LocalStorage", tryLocalStorage));
