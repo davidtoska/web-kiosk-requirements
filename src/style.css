@@ -1,0 +1,47 @@
+body {
+  background: lightgray;
+  min-height: 100vh;
+  display: block;
+}
+
+#app {
+  width: 100%;
+  background: white;
+}
+.menubar {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  align-items: center;
+  padding: 10px 20px;
+  height: 100px;
+  background: bisque;
+  /*color: white;*/
+}
+
+.main-element {
+  /*background: red;*/
+  background: #4d535e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.global-event-display {
+  padding: 10px;
+  background: white;
+  width: 700px;
+  /*height: 100px;*/
+  position: fixed;
+  top: 120px;
+  left: 20px;
+  border: 4px solid black;
+  border-radius: 10px;
+}
+.global-event-display p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 30px;
+  padding: 10px;
+}
