@@ -755,3 +755,27 @@ input[type="range"] {
     display: none;
   }
 }
+
+/* ---- Kiosk link badge -------------------------------------------------- */
+
+.kiosk-badge::before {
+  content: "";
+  display: inline-block;
+  width: 0.6rem;
+  height: 0.6rem;
+  margin-right: 0.45rem;
+  background: var(--muted);
+  border-radius: 50%;
+}
+.kiosk-badge.on {
+  color: var(--pass);
+}
+.kiosk-badge.on::before {
+  background: var(--pass);
+}
+.kiosk-badge.lost {
+  color: var(--fail);
+}
+.kiosk-badge.lost::before {
+  background: var(--fail);
+}

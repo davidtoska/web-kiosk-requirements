@@ -1,4 +1,5 @@
 import { h } from "../dom.ts";
+import { onKioskKey } from "../kiosk.ts";
 import { btn, fitCanvas, stat, toolbar } from "../ui.ts";
 import type { Test } from "../types.ts";
 
@@ -106,10 +107,17 @@ export const inputTest: Test = {
       if (!/^F\d+$/.test(e.key) && !e.ctrlKey && !e.metaKey) e.preventDefault();
     };
     document.addEventListener("keydown", onKey);
+    // The kiosk swallows Ctrl+N/B/F as global shortcuts and forwards them as messages.
+    const stopKioskKeys = onKioskKey((key) => {
+      hint.hidden = true;
+      lastKey.set(`Ctrl+${key.toUpperCase()} (via kiosk)`);
+      mark("Keyboard");
+    });
 
     const stopFit = fitCanvas(canvas);
     ctx.onCleanup(() => {
       stopFit();
+      stopKioskKeys();
       document.removeEventListener("keydown", onKey);
     });
 

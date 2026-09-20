@@ -2,7 +2,15 @@ import "./style.css";
 import { h } from "./dom.ts";
 import { btn } from "./ui.ts";
 import type { Result, Status, Test } from "./types.ts";
+import {
+  isKioskConnected,
+  kioskState,
+  onKioskChange,
+  onKioskKey,
+  startKioskLink,
+} from "./kiosk.ts";
 import { systemTest } from "./tests/system.ts";
+import { kioskTest } from "./tests/kiosk.ts";
 import { networkTest } from "./tests/network.ts";
 import { storageTest } from "./tests/storage.ts";
 import { displayTest } from "./tests/display.ts";
@@ -16,6 +24,7 @@ import { createSummaryTest } from "./tests/summary.ts";
 
 const tests: Test[] = [
   systemTest,
+  kioskTest,
   networkTest,
   storageTest,
   displayTest,
@@ -149,13 +158,14 @@ const panel = h(
 
 const lastKey = h("span", {}, "Last key: –");
 const lastClick = h("span", {}, "Last click: –");
+const kioskBadge = h("span", { class: "kiosk-badge" });
 const viewport = h("span", {});
 const clock = h("span", {});
 const statusbar = h(
   "footer",
   { class: "statusbar" },
   h("div", { class: "statusbar-group" }, lastKey, lastClick),
-  h("div", { class: "statusbar-group" }, viewport, clock),
+  h("div", { class: "statusbar-group" }, kioskBadge, viewport, clock),
 );
 
 document
@@ -280,6 +290,25 @@ const updateEnvironment = () => {
 const updateClock = () => {
   clock.textContent = new Date().toLocaleTimeString();
 };
+const updateKioskBadge = () => {
+  const connected = isKioskConnected();
+  const { ticks, username } = kioskState();
+  kioskBadge.className = `kiosk-badge ${connected ? "on" : ticks ? "lost" : ""}`;
+  kioskBadge.textContent = connected
+    ? `Kiosk linked${username ? ` · ${username}` : ""}`
+    : ticks
+      ? "Kiosk link lost"
+      : "Kiosk not detected";
+};
+
+startKioskLink();
+onKioskChange(updateKioskBadge);
+onKioskKey((key) => {
+  lastKey.textContent = `Last key: Ctrl+${key.toUpperCase()} (kiosk)`;
+});
+setInterval(updateKioskBadge, 1000);
+updateKioskBadge();
+
 window.addEventListener("resize", updateEnvironment);
 document.addEventListener("fullscreenchange", updateEnvironment);
 setInterval(updateClock, 1000);
